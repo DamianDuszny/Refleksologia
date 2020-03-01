@@ -7,5 +7,9 @@ class NotFoundController extends BasicController
 		include("View.php");
 		$this->view = new View;
 	}
+	public function doThings()
+	{
+		
+	}
 }
 ?>

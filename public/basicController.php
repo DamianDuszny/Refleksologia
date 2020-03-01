@@ -1,9 +1,10 @@
 <?php
-class BasicController
+abstract class BasicController
 {
 	protected $view, $model;
 	public function setView($dir, $name)
 	{
+
 		include($dir."/".$name.".php");
 		$this->view = new $name;
 	}
@@ -11,6 +12,7 @@ class BasicController
 	{
 		include($dir."/".$name.".php");
 		$this->model = $name;
+		var_dump($this->model);
 	}
 	public function showContent()
 	{
@@ -20,9 +22,6 @@ class BasicController
 	{
 		$this->model->sayHello();
 	}
-	public function doThings()
-	{
-		
-	}
+	abstract function doThings();
 }
 ?>

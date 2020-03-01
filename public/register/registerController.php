@@ -9,6 +9,9 @@ class RegisterController extends BasicController
 		try
 		{
 			$this->model->validData();
+			$this->model->checkAvailability();
+			$message = $this->model->registerUser();
+			$this->view->showMessage($message);
 		}
 		catch(Exception $e)
 		{

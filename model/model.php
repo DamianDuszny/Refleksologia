@@ -9,7 +9,7 @@ class sqlConnection
 		{
 		mysqli_report(MYSQLI_REPORT_OFF | MYSQLI_REPORT_STRICT);
 		}
-		require_once("config/sqlConfig.php");
+		require("config/sqlConfig.php");
 		$this->sqlLogData = $config;
 		$this->dsn = "mysql:dbname=".$this->sqlLogData["db"].";host=".$this->sqlLogData["host"]."; charset=UTF8";
 		$this->sqlConnection = new PDO($this->dsn, $this->sqlLogData["user"], $this->sqlLogData["passwd"]);
@@ -31,8 +31,10 @@ class sqlConnection
 			echo "<pre>$e</pre>";
 			throw new Exception("Nie udalo sie nawiazac polaczenia z baza danych");
 		}
-		$this->sqlConnection->prepare($query);
-		$this->sqlConnection->execute($params);		
+		$sth = $this->sqlConnection->prepare($query);
+		$sth->execute($params);
+		$this->result = $sth->fetchAll();
+		return $this->result;		
 	}
 
 }

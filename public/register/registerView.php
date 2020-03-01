@@ -9,6 +9,10 @@ class RegisterView extends BasicView
 	{
 		echo "<span id=\"register_error\" class=\"error\">$error</span>";
 	}
+	public function showMessage($message)
+	{
+		echo "<span id=\"\" class=\"\">$message</span>";
+	}
 
 }
 ?>

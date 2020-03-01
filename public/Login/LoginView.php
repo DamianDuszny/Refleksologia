@@ -5,6 +5,10 @@ class loginView
 	{
 		include("templates/login.php");
 	}
+	public function showError($error)
+	{
+		echo "<span id=\"register_error\" class=\"error\">$error</span>";
+	}
 }
 
 ?>

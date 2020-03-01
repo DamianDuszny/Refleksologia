@@ -8,5 +8,7 @@ class AboutController extends BasicController
 	{
 		session_destroy();
 	}
+	public function doThings()
+	{}
 }
 ?>

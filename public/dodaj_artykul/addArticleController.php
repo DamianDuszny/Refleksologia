@@ -8,5 +8,8 @@ class addArticleController extends BasicController
 	{
 		session_destroy();
 	}
+	public function doThings()
+	{}
+
 }
 ?>

@@ -1,64 +1,62 @@
 <?php
-class Routes
+class Router
 {
-	private $url, $model,$public;
+	protected $controllerName, $path, $controllerPath, $subSiteName, $files, $destination;
+	protected $viewName, $viewPath;
+	protected $modelName;
 	public function __construct()
-	{	
-		//$this->url = $this->link = "/refleksjologia";
-		$this->public = $this->url."./public";
-		$this->model = "./model/";
-	}
-	public function __unset($url)
 	{
-		$this->test();
+		preg_match_all('/\/\w+/',$_SERVER["REQUEST_URI"], $this->destination);
+		$this->subSiteName = str_replace('/', "", end($this->destination[0]));
+		include("./model/articlesModel.php");
+		include("./public/basicView.php");
+		include("./public/basicController.php");
+		$path = "./public/".$this->subSiteName;
+		if(is_dir($path))
+		{
+			$this->files = scandir("./public/".$this->subSiteName);
+			$this->controllerName = preg_grep('/\w+Controller/',$this->files);
+			$this->controllerName = end($this->controllerName);
+			$this->controllerPath = "./public/".$this->subSiteName."/".$this->controllerName; //final controller path ./public/subSiteName/nameController.php
+			$this->controllerName = str_replace(".php", "",$this->controllerName);
+		}
+		else
+		{
+			$this->subSiteName = "404";
+			$this->files = scandir("./public/".$this->subSiteName);
+			$this->controllerPath = "./public/404/siteNotFound.php";
+			$this->controllerName = "NotFoundController";
+		}
 	}
-	public function refleksjologia()
+	public function getControllerPath()
 	{
-		return $this->public."/refleksjologia/mainSiteController.php";
+		return $this->controllerPath;
 	}
-	public function kontakt()
+	public function getControllerName()
 	{
-		return $this->public."/kontakt/kontaktController.php";
+		return $this->controllerName;
 	}
-	public function articles()
+	public function getSubSiteName()
 	{
-		return $this->public."/articles/";
+		return $this->subSiteName;
 	}
-	public function about($controller)
+	public function getViewName()
 	{
-		return $this->public."/about/".$controller;
-	}
-	public function UsersPannel()
-	{
+		$this->viewName = preg_grep('/\w+View/',$this->files);
+		$this->viewName = str_replace(".php", "",end($this->viewName));
+		return $this->viewName;
 
 	}
-	public function dodaj_artykul($controller)
+	public function getModelName()
 	{
-		return $this->public."/dodaj_artykul/".$controller;
+		var_dump($this->files);
+		$this->modelName = preg_grep('/\w+Model/',$this->files);
+		$this->modelName = str_replace(".php", "",end($this->modelName));
+		return $this->modelName;
 	}
-	public function login()
+	public function getDirectoryName()
 	{
-		return $this->public."/login/loginController.php";
-	}
-	public function Controller()
-	{
-		return $this->url."/controller/";
-	}
-	public function Styles()
-	{
-		return $this->url."/styles/";
-	}
-	public function ArticlesModel()
-	{
-		return $this->model."articlesModel.php";
-	}
-	public function siteNotFound()
-	{
-		return $this->public."/404/siteNotFound.php";
-	}
-	public function register()
-	{
-		return $this->public."/register/registerController.php";
+		return end($this->destination[0]);
 	}
 
 }

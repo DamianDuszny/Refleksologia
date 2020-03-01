@@ -8,7 +8,18 @@
 	<li class="sub_menu"><a href="about">O refleksjologii</a></li>
 	<li class="sub_menu"><a href="dodaj_artykul">Dodaj post</a></li>
 	<li class="sub_menu"><a href="kontakt">Kontakt</a></li>
-	<li class="sub_menu"><a href="login">Zaloguj</a></li>
+	<?php 
+	if(isset($_SESSION["user"]))
+	{
+		echo 
+		"<li class=\"sub_menu\"><a href=\"konto\">Moje konto</a></li>";
+	}
+	else
+	{
+		echo
+		"<li class=\"sub_menu\"><a href=\"login\">Zaloguj</a></li>";
+	}
+	?>
 </ul>
 <div id="main_div">
 	<?php 
