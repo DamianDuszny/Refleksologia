@@ -2,6 +2,9 @@
 session_start();
 $_SESSION["test"] = 1;
 require_once("model/model.php");
+$test = new sqlConnection;
+$test->createSqlConnection();
+var_dump($test);
 include "routing/router.php";
 $routes = new Routes;
 $model;

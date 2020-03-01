@@ -1,8 +1,9 @@
 <?php
 class sqlConnection
 {
-	protected $sqlLogData, $sqlConnection, $connectError;
-	protected function createSqlConnection()
+	protected $sqlLogData, $sqlConnection, $connectError, $dsn, $test;
+	protected $result;
+	public function createSqlConnection()
 	{
 		if(!$_SESSION["test"]) //If user is logged in as a tester, mysqli errors will be displayed.
 		{
@@ -10,35 +11,28 @@ class sqlConnection
 		}
 		require_once("config/sqlConfig.php");
 		$this->sqlLogData = $config;
-		$this->sqlConnection = new mysqli($this->sqlLogData["host"], $this->sqlLogData["user"], $this->sqlLogData["passwd"], $this->sqlLogData["db"]);
+		$this->dsn = "mysql:dbname=".$this->sqlLogData["db"].";host=".$this->sqlLogData["host"]."; charset=UTF8";
+		$this->sqlConnection = new PDO($this->dsn, $this->sqlLogData["user"], $this->sqlLogData["passwd"]);
+	/*	$this->sqlConnection = new mysqli($this->sqlLogData["host"], $this->sqlLogData["user"], $this->sqlLogData["passwd"], $this->sqlLogData["db"]);
 		if($this->sqlConnection->connect_errno)
-			throw new Exception($this->sqlConnection->connect_error); //Exception is used in sqlQuery function in this class.
-			$this->sqlConnection->set_charset("utf8");
+			throw new Exception($this->sqlConnection->connect_error); //Exception is used in sqlQuery method in this class.
+			$this->sqlConnection->set_charset("utf8");*/
 
 	}
-	public function sqlQuery($query)
+	public function sqlQuery($query, $params)
 	{
 		try
 		{
 		$this->createSqlConnection();
 		}
-		catch(Exception $e)
+		catch(PDOException $e)
 		{
-			echo "<span id=\"error\">Nie udalo sie nawiazac polaczenia z baza danych</span>";
 			if($_SESSION["test"])
 			echo "<pre>$e</pre>";
-			return false;
+			throw new Exception("Nie udalo sie nawiazac polaczenia z baza danych");
 		}
-		$result = $this->sqlConnection->query($query);
-		if($result)
-		{
-			return $result; 
-		}
-		else
-		{
-			 throw new Exception($this->sqlConnection->errno);
-			 return false;
-		}
+		$this->sqlConnection->prepare($query);
+		$this->sqlConnection->execute($params);		
 	}
 
 }

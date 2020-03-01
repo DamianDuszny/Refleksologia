@@ -5,7 +5,10 @@ class RegisterModel
 	private $result;
 	public function __construct()
 	{
-		$this->db = new sqlConnection;
+		foreach($_POST as $key => $result)
+		{
+			$_POST[$key] = htmlspecialchars($result);
+		}
 		$this->login = $_POST["login"];
 		$this->email = $_POST["email"];
 		$this->password = $_POST["password"];
@@ -37,11 +40,12 @@ class RegisterModel
 		{
 			throw new Exception("Błędny email");
 		}
-		$this->checkLogin();
+		$this->checkAvailability();
 	}
-	private function checkLogin()
+	private function checkAvailability()
 	{
-		$this->result = $this->db->sqlQuery("select login from users where login = '$this->login'");
+		$this->db = new sqlConnection;
+		$this->result = $this->db->sqlQuery("select login from users where login = '$this->login' OR email = '$this->email'");
 		if ($this->result->num_rows)
 			throw new Exception("Login jest zajęty");
 	}
