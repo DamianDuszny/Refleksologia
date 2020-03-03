@@ -6,13 +6,17 @@
 <ul id="main_menu">
 	<li class="sub_menu"><a href='#'>opcja 1</a></li>
 	<li class="sub_menu"><a href="about">O refleksjologii</a></li>
-	<li class="sub_menu"><a href="dodaj_artykul">Dodaj post</a></li>
 	<li class="sub_menu"><a href="kontakt">Kontakt</a></li>
 	<?php 
 	if(isset($_SESSION["user"]))
 	{
+		if($_SESSION["permission_level"]>10)
+		{
+			echo 
+				"<li class=\"sub_menu\"><a href=\"dodaj_artykul\">Dodaj post</a></li>";
+		}
 		echo 
-		"<li class=\"sub_menu\"><a href=\"konto\">Moje konto</a></li>";
+		"<li class=\"sub_menu\"><a href=\"?logout=true\">Wyloguj</a></li>";
 	}
 	else
 	{
@@ -27,7 +31,6 @@
 	$controller = new $controller;
 	$controller->setView($router->getSubSiteName(), $router->getViewName());
 	$controller->setModel($router->getSubSiteName(), $router->getModelName());
-
 	$controller->showContent();
 	$controller->doThings();
 	?>

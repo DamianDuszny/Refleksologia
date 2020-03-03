@@ -14,7 +14,6 @@ class LoginController extends BasicController
 		{
 			$this->model->validData();
 			$this->model->setSession();
-
 		}
 		catch(Exception $e)
 		{

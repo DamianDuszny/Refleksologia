@@ -12,7 +12,6 @@ abstract class BasicController
 	{
 		include($dir."/".$name.".php");
 		$this->model = $name;
-		var_dump($this->model);
 	}
 	public function showContent()
 	{

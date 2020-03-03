@@ -58,6 +58,10 @@ class Router
 	{
 		return end($this->destination[0]);
 	}
+	public function getHomeUrl()
+	{
+		return $_SERVER["REQUEST_SCHEME"]."://".$_SERVER["HTTP_HOST"]."/refleksjologia";
+	}
 
 }
 ?>
