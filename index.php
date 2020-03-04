@@ -10,7 +10,6 @@ if(isset($_GET["logout"]))
 	$home = $router->getHomeUrl();
 	header("location: $home", true, 301);
 }
-var_dump($_SESSION);
 include($router->getControllerPath());
 include("templates/head.php");
 require("templates/main.php");

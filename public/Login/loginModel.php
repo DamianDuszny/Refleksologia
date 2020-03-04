@@ -3,10 +3,12 @@ class LoginModel
 {
 	protected $login, $password, $permission_level;
 	protected $db, $result;
-	public function __construct()
+	protected $router;
+	public function __construct($router)
 	{
 		$this->login = $_POST["login"];
 		$this->password = $_POST["password"];
+		$this->router = $router;
 	}
 	public function validData()
 	{
@@ -16,7 +18,6 @@ class LoginModel
 		$params = array(":login"=>$this->login, ":password" => $this->password);
 		$this->result = $this->db->sqlQuery($query, $params);
 		$this->permission_level = $this->result[0]["uprawnienia"];
-				var_dump($this->result);
 		if(!$this->result)
 		{
 			throw new Exception("Błędny login lub hasło");
@@ -27,7 +28,7 @@ class LoginModel
 	{
 		$_SESSION["user"] = $this->login;
 		$_SESSION["permission_level"] = $this->permission_level;
-		header("location:".$_SERVER["REQUEST_SCHEME"]."//".$_SERVER["HTTP_HOST"]."/refleksjologia/", true, 301);
+		header("location: ".$this->homeUrl, true);
 	}
 }
 ?>

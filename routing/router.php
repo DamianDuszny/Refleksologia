@@ -8,10 +8,10 @@ class Router
 	{
 		preg_match_all('/\/\w+/',$_SERVER["REQUEST_URI"], $this->destination);
 		$this->subSiteName = str_replace('/', "", end($this->destination[0]));
-		include("./model/articlesModel.php");
-		include("./public/basicView.php");
-		include("./public/basicController.php");
-		$path = "./public/".$this->subSiteName;
+		include_once("./model/articlesModel.php");
+		include_once("./public/basicView.php");
+		include_once("./public/basicController.php");
+		$path = "./public/".$this->subSiteName; //change the path
 		if(is_dir($path))
 		{
 			$this->files = scandir("./public/".$this->subSiteName);
@@ -60,7 +60,7 @@ class Router
 	}
 	public function getHomeUrl()
 	{
-		return $_SERVER["REQUEST_SCHEME"]."://".$_SERVER["HTTP_HOST"]."/refleksjologia";
+		return $_SERVER["REQUEST_SCHEME"]."://".$_SERVER["HTTP_HOST"]."/refleksjologia/";
 	}
 
 }

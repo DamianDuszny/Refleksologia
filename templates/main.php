@@ -4,26 +4,9 @@
 <div id="logo">
 	<a href="http://localhost/refleksjologia" class="linkFullDisplay logo">REFLEKSJOLOGIA</a></div>
 <ul id="main_menu">
-	<li class="sub_menu"><a href='#'>opcja 1</a></li>
-	<li class="sub_menu"><a href="about">O refleksjologii</a></li>
-	<li class="sub_menu"><a href="kontakt">Kontakt</a></li>
-	<?php 
-	if(isset($_SESSION["user"]))
-	{
-		if($_SESSION["permission_level"]>10)
-		{
-			echo 
-				"<li class=\"sub_menu\"><a href=\"dodaj_artykul\">Dodaj post</a></li>";
-		}
-		echo 
-		"<li class=\"sub_menu\"><a href=\"?logout=true\">Wyloguj</a></li>";
-	}
-	else
-	{
-		echo
-		"<li class=\"sub_menu\"><a href=\"login\">Zaloguj</a></li>";
-	}
-	?>
+<?php 
+include("menu.php");
+?>
 </ul>
 <div id="main_div">
 	<?php 
