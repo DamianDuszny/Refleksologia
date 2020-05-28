@@ -1,10 +1,10 @@
 	<li class="sub_menu"><a href='#'>opcja 1</a></li>
-	<li class="sub_menu"><a href="about">O refleksjologii</a></li>
+	<li class="sub_menu"><a href="about">O refleksologii</a></li>
 	<li class="sub_menu"><a href="kontakt">Kontakt</a></li>
 	<?php 
-	function createLi($href, $text)
+	function createLi($href, $text, $class = "")
 	{
-		return "<li class=\"sub_menu\"><a href=\"$href\">$text</a></li>";
+		return "<li class=\"sub_menu $class\"><a href=\"$href\">$text</a></li>";
 	}
 	if(isset($_SESSION["user"]))
 	{
@@ -14,11 +14,11 @@
 				createLi("dodaj_artykul", "Dodaj post");
 		}
 		echo 
-		createLi("?logout=true", "Wyloguj");
+		createLi("?logout=true", "Wyloguj", "login");
 	}
 	else
 	{
 		echo
-		createLi("login", "Zaloguj");
+		createLi("login", "Zaloguj", "login");
 	}
 	?>

@@ -12,11 +12,17 @@ class LoginModel
 	}
 	public function validData()
 	{
-		$this->db = new sqlConnection;
+		$this->db = new dbConnection;
 		$query = "select login, password, uprawnienia from users where login = :login and password = :password;";
 		$this->password = sha1($this->password);
-		$params = array(":login"=>$this->login, ":password" => $this->password);
+		$params = array(
+			":login"	=>	$this->login, 
+			":password" => 	$this->password);
+
 		$this->result = $this->db->sqlQuery($query, $params);
+		/*
+		get permission level of user row "uprawnienia" in db.
+		*/
 		$this->permission_level = $this->result[0]["uprawnienia"];
 		if(!$this->result)
 		{
@@ -27,6 +33,9 @@ class LoginModel
 	public function setSession()
 	{
 		$_SESSION["user"] = $this->login;
+		/*
+		set permission level to session variable.
+		*/
 		$_SESSION["permission_level"] = $this->permission_level;
 		header("location: ".$this->homeUrl, true);
 	}

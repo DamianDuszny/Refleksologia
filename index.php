@@ -1,7 +1,7 @@
 <?php
 session_start();
 $_SESSION["test"] = 1;
-require_once("model/model.php");
+require_once("model/dbConnection.php");
 include "routing/router.php";
 $router = new Router();
 if(isset($_GET["logout"]))
@@ -13,4 +13,9 @@ if(isset($_GET["logout"]))
 include($router->getControllerPath());
 include("templates/head.php");
 require("templates/main.php");
+$included_files = get_included_files();
+
+foreach ($included_files as $filename) {
+    echo "$filename\n";
+}
 ?>

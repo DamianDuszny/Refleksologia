@@ -4,7 +4,6 @@ abstract class BasicController
 	protected $view, $model;
 	public function setView($dir, $name)
 	{
-
 		include($dir."/".$name.".php");
 		$this->view = new $name;
 	}
@@ -16,10 +15,6 @@ abstract class BasicController
 	public function showContent()
 	{
 		$this->view->showContent();
-	}
-	public function sayHello()
-	{
-		$this->model->sayHello();
 	}
 	abstract function doThings();
 }

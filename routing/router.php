@@ -6,15 +6,19 @@ class Router
 	protected $modelName;
 	public function __construct()
 	{
-		preg_match_all('/\/\w+/',$_SERVER["REQUEST_URI"], $this->destination);
-		$this->subSiteName = str_replace('/', "", end($this->destination[0]));
-		include_once("./model/articlesModel.php");
+		preg_match_all('/\/\w*/',$_SERVER["REQUEST_URI"], $this->destination);
+		($this->destination[0][1]== "/") ? $this->subSiteName = "refleksologia" : $this->subSiteName = str_replace('/', "", $this->destination[0][1]);
+		
+		include_once("./public/articles/articlesController.php");
 		include_once("./public/basicView.php");
 		include_once("./public/basicController.php");
-		$path = "./public/".$this->subSiteName; //change the path
-		if(is_dir($path))
+		/*
+		declare path
+		*/
+		$this->path = "./public/".$this->subSiteName;
+		if(is_dir($this->path))
 		{
-			$this->files = scandir("./public/".$this->subSiteName);
+			$this->files = scandir($this->path);
 			$this->controllerName = preg_grep('/\w+Controller/',$this->files);
 			$this->controllerName = end($this->controllerName);
 			$this->controllerPath = "./public/".$this->subSiteName."/".$this->controllerName; //final controller path ./public/subSiteName/nameController.php
@@ -49,7 +53,6 @@ class Router
 	}
 	public function getModelName()
 	{
-		var_dump($this->files);
 		$this->modelName = preg_grep('/\w+Model/',$this->files);
 		$this->modelName = str_replace(".php", "",end($this->modelName));
 		return $this->modelName;
@@ -61,6 +64,10 @@ class Router
 	public function getHomeUrl()
 	{
 		return $_SERVER["REQUEST_SCHEME"]."://".$_SERVER["HTTP_HOST"]."/refleksjologia/";
+	}
+	public function getGeneralModelPath($name)
+	{
+		return $_SERVER['DOCUMENT_ROOT']."/refleksjologia/model/".$name;
 	}
 
 }

@@ -90,7 +90,7 @@ class RegisterModel
 		$params = array(":email"=>$this->email);
 		$this->result = $this->db->sqlQuery($query, $params);
 		if($this->result)
-			throw new Exception("Email jest zajęty");
+			throw new Exception("Email jest zajęty.");
 	}
 	private function registerUser()
 	{
@@ -99,7 +99,11 @@ class RegisterModel
 		*/
 		$this->password = sha1($this->password);
 		$query = "insert into users (`login`, `password`, `email`) values (:login, :password, :email)"; 
-		$params = array(":login"=>$this->login, ":password"=>$this->password, ":email"=>$this->email);
+		$params = array(
+			":login"	=>	$this->login, 
+			":password"	=>	$this->password, 
+			":email"	=>	$this->email);
+
 		$this->result = $this->db->sqlQuery($query, $params);
 		if(!$this->result)
 			throw new Exception("Coś poszło nie tak podczas rejestracji...");
