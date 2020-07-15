@@ -78,6 +78,7 @@
 			margin-left: 10%;
 			margin-bottom: 2%;
 			clear: left;
+			white-space: pre-line;
 		}
 		#right_div {
 			width: 22%;
@@ -99,7 +100,7 @@
 			background-color: black;
 			color: white;
 		}
-		.post
+		.post, .article
 		{
 			display: block;
 			width: 70%;
@@ -107,6 +108,7 @@
 			position: relative;
 			left: 15%;
 			margin-bottom: 30px;
+			white-space: pre-line;
 		}
 		.post:hover 
 		{
@@ -152,8 +154,8 @@
 			display: block;
 			color: red;
 			font-size: 30px;
-			text-align: center;
 			width: 100%;
+			white-space: pre-line;
 		}
 		.info
 		{
@@ -175,4 +177,8 @@
 			text-align: center;
 			font-family: arial;
 			font-size: 19px;
+		}
+		#hiddeninput, .hiddeninput
+		{
+			display: none;
 		}

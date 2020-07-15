@@ -1,37 +1,47 @@
 <?php
 class Router
 {
-	protected $controllerName, $path, $controllerPath, $subSiteName, $files, $destination;
-	protected $viewName, $viewPath;
-	protected $modelName;
+	private $controllerName, $path, $controllerPath, $subSiteName, $files, $destination;
+	private $viewName, $viewPath;
+	private $modelName;
+	public static $routesAllowed;
 	public function __construct()
 	{
 		preg_match_all('/\/\w*/',$_SERVER["REQUEST_URI"], $this->destination);
+		var_dump($_SERVER["REQUEST_URI"]);
 		($this->destination[0][1]== "/") ? $this->subSiteName = "refleksologia" : $this->subSiteName = str_replace('/', "", $this->destination[0][1]);
-		
 		include_once("./public/articles/articlesController.php");
 		include_once("./public/basicView.php");
 		include_once("./public/basicController.php");
 		/*
 		declare path
 		*/
-		$this->path = "./public/".$this->subSiteName;
+		
+		foreach(self::$routesAllowed as $start){
+		$this->path = $start.$this->subSiteName;
 		if(is_dir($this->path))
 		{
 			$this->files = scandir($this->path);
 			$this->controllerName = preg_grep('/\w+Controller/',$this->files);
 			$this->controllerName = end($this->controllerName);
-			$this->controllerPath = "./public/".$this->subSiteName."/".$this->controllerName; //final controller path ./public/subSiteName/nameController.php
+			if($this->controllerName)
+			{
+			$this->controllerPath = $start.$this->subSiteName."/".$this->controllerName; //final controller path ./dir/subSiteName/nameController.php
 			$this->controllerName = str_replace(".php", "",$this->controllerName);
-		}
-		else
-		{
-			$this->subSiteName = "404";
-			$this->files = scandir("./public/".$this->subSiteName);
-			$this->controllerPath = "./public/404/siteNotFound.php";
-			$this->controllerName = "NotFoundController";
+			return true;
+			}
 		}
 	}
+			/*
+			this will trigger if router doesnt find dir or subsite controller 
+			*/
+			$this->subSiteName = "404";
+			$this->path = $start.$this->subSiteName;
+			$this->files = scandir("./public/".$this->subSiteName);
+			$this->controllerPath = "./public/404/siteNotFoundController.php";
+			$this->controllerName = "siteNotFoundController";
+
+	}	
 	public function getControllerPath()
 	{
 		return $this->controllerPath;
@@ -40,9 +50,9 @@ class Router
 	{
 		return $this->controllerName;
 	}
-	public function getSubSiteName()
+	public function getSubSiteRoute()
 	{
-		return $this->subSiteName;
+		return $this->path;
 	}
 	public function getViewName()
 	{
@@ -63,11 +73,15 @@ class Router
 	}
 	public function getHomeUrl()
 	{
-		return $_SERVER["REQUEST_SCHEME"]."://".$_SERVER["HTTP_HOST"]."/refleksjologia/";
+		return $_SERVER["REQUEST_SCHEME"]."://".$_SERVER["HTTP_HOST"]."/refleksologia/";
 	}
 	public function getGeneralModelPath($name)
 	{
-		return $_SERVER['DOCUMENT_ROOT']."/refleksjologia/model/".$name;
+		return $_SERVER['DOCUMENT_ROOT']."/refleksologia/model/".$name;
+	}
+	public function getCurrentPath()
+	{
+		return getcwd();
 	}
 
 }

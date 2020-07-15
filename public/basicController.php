@@ -1,7 +1,12 @@
 <?php
 abstract class BasicController
 {
-	protected $view, $model;
+	protected $view, $model, $template;
+	protected $db;
+	public function __construct($db)
+	{
+		$this->db = $db;
+	}
 	public function setView($dir, $name)
 	{
 		include($dir."/".$name.".php");
@@ -14,8 +19,9 @@ abstract class BasicController
 	}
 	public function showContent()
 	{
-		$this->view->showContent();
+		$this->view->addTemplate($this->template);
 	}
 	abstract function doThings();
+
 }
 ?>

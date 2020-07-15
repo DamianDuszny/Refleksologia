@@ -1,5 +1,5 @@
 <?php
-class loginView
+class loginView extends BasicView
 {
 	public function showContent()
 	{

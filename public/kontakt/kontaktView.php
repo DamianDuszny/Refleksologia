@@ -1,7 +1,7 @@
 <?php
 class KontaKtView
 {
-	public function showContent()
+	public function addTemplate()
 	{
 
 	}

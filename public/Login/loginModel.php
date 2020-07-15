@@ -4,7 +4,7 @@ class LoginModel
 	protected $login, $password, $permission_level;
 	protected $db, $result;
 	protected $router;
-	public function __construct($router)
+	public function __construct($router, dbConnection $db)
 	{
 		$this->login = $_POST["login"];
 		$this->password = $_POST["password"];
@@ -17,17 +17,18 @@ class LoginModel
 		$this->password = sha1($this->password);
 		$params = array(
 			":login"	=>	$this->login, 
-			":password" => 	$this->password);
+			":password" => 	$this->password
+		);
 
 		$this->result = $this->db->sqlQuery($query, $params);
 		/*
 		get permission level of user row "uprawnienia" in db.
 		*/
-		$this->permission_level = $this->result[0]["uprawnienia"];
 		if(!$this->result)
 		{
 			throw new Exception("Błędny login lub hasło");
 		}
+		$this->permission_level = $this->result[0]["uprawnienia"];
 		return true;
 	}
 	public function setSession()
