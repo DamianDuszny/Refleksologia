@@ -8,8 +8,7 @@ class Router
 	public function __construct()
 	{
 		preg_match_all('/\/\w*/',$_SERVER["REQUEST_URI"], $this->destination);
-		var_dump($_SERVER["REQUEST_URI"]);
-		($this->destination[0][1]== "/") ? $this->subSiteName = "refleksologia" : $this->subSiteName = str_replace('/', "", $this->destination[0][1]);
+		($this->destination[0][1]== "/") ? $this->subSiteName = "main" : $this->subSiteName = str_replace('/', "", $this->destination[0][1]);
 		include_once("./public/articles/articlesController.php");
 		include_once("./public/basicView.php");
 		include_once("./public/basicController.php");

@@ -1,14 +1,16 @@
 <?php
 class ArticlesController
 {
-	protected $category;
-	protected $view, $model;
-	public function __construct()
+	private $category;
+	private $view, $model;
+	public function __construct($category)
 	{
-		include("./articlesModel.php");
-		include("./articlesView.php");
-		$this->model = new ArticlesModel($this->$category);
+		$this->category = $category;
+		include("./public/articles/articlesModel.php");
+		include("./public/articles/articlesView.php");
+		$this->model = new ArticlesModel($this->category);
 		$this->view = new ArticlesView;
+		$this->view->articlesForMainPage("tytul", "test");
 	}
 }
 ?>
